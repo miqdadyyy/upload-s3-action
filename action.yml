@@ -5,15 +5,21 @@ branding:
   icon: 'upload-cloud'
   color: 'orange'
 inputs:
-  aws_key_id:
-    description: 'aws key id'
+  s3_key_id:
+    description: 's3 key id'
     required: true
-  aws_secret_access_key:
-    description: 'aws secret access key'
+  s3_secret_access_key:
+    description: 's3 secret access key'
     required: true
-  aws_bucket:
-    description: 'aws bucket name'
+  s3_bucket:
+    description: 's3 bucket name'
     required: true
+  s3_region:
+    description: 's3 region'
+    required: true
+  s3_host:
+    description: 's3 host/provider'
+    required: false
   source_dir:
     required: true
     description: 'directory to upload'
