@@ -22,6 +22,9 @@ const SOURCE_DIR = core.getInput('source_dir', {
 const REGION = core.getInput('s3_region', {
     required: true
 });
+const DESTINATION_DIR = core.getInput('destination_dir', {
+    required: false
+})
 const PROVIDER = core.getInput('s3_host') || 'amazonaws.com';
 const ENDPOINT = new AWS.Endpoint(`${REGION}.${PROVIDER}`);
 
@@ -31,7 +34,7 @@ const s3 = new S3({
     endpoint: ENDPOINT,
 });
 
-const objKey = shortid();
+const objKey = DESTINATION_DIR !== undefined ? DESTINATION_DIR : `${shortid()}/`;
 const paths = klawSync(SOURCE_DIR, {
     nodir: true
 });
@@ -50,7 +53,7 @@ function upload(params) {
 function run() {
     return Promise.all(
         paths.map(p => {
-            const Key = p.path.replace(path.join(process.cwd(), SOURCE_DIR), objKey);
+            const Key = p.path.replace(path.join(process.cwd(), SOURCE_DIR, '/'), objKey);
             const fileStream = fs.createReadStream(p.path);
             const params = {
                 Bucket: BUCKET,
